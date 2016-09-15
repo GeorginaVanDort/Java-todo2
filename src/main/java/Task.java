@@ -42,6 +42,6 @@ public class Task {
   }
 
   public static Task find(int id) {
-    return instances.get(id - 1);//static method to locate a Task using its mId property. This method is static because it must sift through all Task objects to find the specific one we're seeking. And, because it is static, we will call it on the entire class, like this: Task.find().//
-  }
+    return instances.get(id - 1);//static method to locate a Task using its mId property. This method is static because it must sift through all Task objects//
+  }//instances.get() is a method called on ArrayLists//
 }
