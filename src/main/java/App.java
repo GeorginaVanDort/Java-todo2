@@ -35,5 +35,16 @@ public class App {
       model.put("template", "templates/success.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
+  
+    //route when we click a link to see a particular Task's detail page//
+    get("/tasks/:id", (request, response) -> {//:id is a placeholde//
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Task task = Task.find(Integer.parseInt(request.params(":id")));//retrieves the value currently represented by :id//
+      //then retrieves the Task whose mId matches the :id and assign it to var "task"//
+      model.put("task, task");//place it into model//
+      model.put("template", "templates/task.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+    //When the corresponding task.vtl template loads, it will then display the details for that particular Task//
   }
 }
