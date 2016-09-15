@@ -46,5 +46,60 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
     //When the corresponding task.vtl template loads, it will then display the details for that particular Task//
+  
+    get("/categories/new", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      model.put("template", "templates/category-form.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+    
+    post("/categories", (request, response) -> {
+    //submit the form, this route is triggered, and the contents are included in the queryParams// 
+      Map<String, Object> model = new HashMap<String, Object>();
+      String name = request.queryParams("name");//call queryParams() upon the request object. We pass in "name" as an argument//
+      // Category newCategory = new Category(name);/create a new Category and passing in the name//
+      model.put("template", "templates/category-success.vtl");//Spark renders our category-success.vtl template//
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+    
+    get("/categories", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();//create our model with the HashMap constructor//
+      model.put("categories", Category.all());//place all Category objects in our model under the key "categories"//
+      model.put("template", "templates/categories.vtl");//place categories.vtl template in model//
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+    
+    get("/categories/:id", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      Category category = Category.find(Integer.parseInt(request.params(":id")));
+      model.put("category", category);
+      model.put("template", "templates/category.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+    
+    get("categories/:id/tasks/new", (request, response) -> {//create a Task as a sub-directory of the category detail page//
+      Map<String, Object> model = new HashMap<String, Object>();
+      Category category = Category.find(Integer.parseInt(request.params(":id")));
+      model.put("category", category);
+      model.put("template", "templates/category-tasks-form.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+    //unique id will be right there in the url: get("categories/:id/tasks/new")//
+
+    post("/tasks", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+
+      Category category = Category.find(Integer.parseInt(request.queryParams("categoryId")));
+      //processes the form submission//
+      
+      String description = request.queryParams("description");
+      Task newTask = new Task(description);//creates the new task //
+      
+      category.addTask(newTask);//adds it to the correct category//
+
+      model.put("category", category);//puts category in model//
+      model.put("template", "templates/category-tasks-success.vtl");//displays a success page//
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
   }
 }
