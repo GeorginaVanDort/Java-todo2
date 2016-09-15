@@ -41,7 +41,7 @@ public class App {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Task task = Task.find(Integer.parseInt(request.params(":id")));//retrieves the value currently represented by :id//
       //then retrieves the Task whose mId matches the :id and assign it to var "task"//
-      model.put("task, task");//place it into model//
+      model.put("task", "task");//place it into model//
       model.put("template", "templates/task.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
