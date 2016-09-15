@@ -31,7 +31,7 @@ public class Category {
   }
   
   public static Category find(int id) {//This method is static because it must sift through all objects//
-    return instances.get(id -1);}//instances.get() is a method called on ArrayLists//
+    return instances.get(id -1);//instances.get() is a method called on ArrayLists//
   }
   
   public List<Task> getTasks() {
